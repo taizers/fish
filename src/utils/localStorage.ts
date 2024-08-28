@@ -1,4 +1,4 @@
-import { TOKEN_KEY } from '../constants';
+import { TOKEN_KEY } from '../constants.ts';
 
 const isToken = (tokenName: string = TOKEN_KEY) => {
   return !!localStorage.getItem(tokenName);

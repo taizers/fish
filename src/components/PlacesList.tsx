@@ -11,7 +11,7 @@ import {
 // import { listOfPlacesMock } from '../mocks';
 import { Button } from 'primereact/button';
 import CreatePlaceModal from '../modals/CreatePlaceModal';
-import { adminRole, authorRole, moderatorRole } from '../constants';
+import { adminRole, authorRole, moderatorRole } from '../constants.ts';
 import NoData from './NoData';
 import Loader from './Loader';
 

@@ -7,7 +7,7 @@ export const getUserFromToken = (token: string) => {
 
     const currentDate = new Date();
 
-    if (currentDate > payload.exp) {
+    if (currentDate < payload.exp) {
       const roles = payload.realm_access?.roles?.filter((item: string) => {
         const words = item.split('_');
 

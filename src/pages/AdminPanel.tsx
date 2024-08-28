@@ -1,16 +1,20 @@
 import { FC, useState } from 'react';
-import NewsAdmin from '../components/NewsAdmin';
 import { SelectButton } from 'primereact/selectbutton';
-import PlacesAdmin from '../components/PlacesAdmin';
-import CommentsAdmin from '../components/CommentsAdmin';
+import CommentsAdmin from "../components/CommentsAdmin";
+import NewsAdmin from "../components/NewsAdmin";
+import PlacesAdmin from "../components/PlacesAdmin";
+
+type PagesLabelsType = 'Places' | 'News' | 'Comments';
+
+const adminPages = {
+  'Places': <PlacesAdmin /> , 
+  'News': <NewsAdmin />, 
+  'Comments': <CommentsAdmin />,
+};
 
 const AdminPanel: FC = () => {
-  const [pageOptions] = useState([
-    { label: 'Places', value: 'places' },
-    { label: 'News', value: 'news' },
-    { label: 'Comments', value: 'comments' },
-  ]);
-  const [page, setPage] = useState(pageOptions[1].value);
+  const pagesLabels = Object.keys(adminPages);
+  const [page, setPage] = useState<PagesLabelsType>(pagesLabels[1] as PagesLabelsType);
 
   return (
     <div style={{ padding: '20px', overflowY: 'auto' }}>
@@ -18,13 +22,12 @@ const AdminPanel: FC = () => {
         <SelectButton
           value={page}
           onChange={(e) => setPage(e.value)}
-          options={pageOptions}
+          options={pagesLabels}
+          allowEmpty={false}
           className="admin-panel-switch-button"
         />
       </div>
-      {page === 'news' && <NewsAdmin />}
-      {page === 'places' && <PlacesAdmin />}
-      {page === 'comments' && <CommentsAdmin />}
+      {adminPages[page]}
     </div>
   );
 };

@@ -10,7 +10,7 @@ import {
   IResponcePaginatedData,
   useGetQueryResponce,
 } from '../types/responce';
-import { adminRole, journalistRole, moderatorRole } from '../constants';
+import { adminRole, journalistRole, moderatorRole } from '../constants.ts';
 import NoData from '../components/NoData';
 import Loader from '../components/Loader';
 

@@ -4,7 +4,7 @@ import { MenuItem } from 'primereact/menuitem';
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../hooks';
-import { adminRole, moderatorRole } from '../constants';
+import { adminRole, moderatorRole } from '../constants.ts';
 
 interface IMEnuBar {
   setLoginDialogVisible: (data: boolean) => void;

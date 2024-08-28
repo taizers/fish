@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../hooks';
-import { adminRole, moderatorRole } from '../constants';
+import { adminRole, moderatorRole } from '../constants.ts';
 
 const PrivateAdminRoute: FC = () => {
   const { user } = useAppSelector((state) => state.auth);

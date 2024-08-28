@@ -1,6 +1,6 @@
 import { Carousel } from 'primereact/carousel';
 import { FC, ReactNode, useState } from 'react';
-import { defaultCurrentPage, responsiveOptions } from '../constants';
+import { defaultCurrentPage, responsiveOptions } from '../constants.ts';
 import { useResponsive } from '../hooks';
 
 interface CarouselComponentProps {
