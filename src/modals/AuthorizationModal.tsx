@@ -37,7 +37,7 @@ interface IAuthorizationModal {
 //         type: 'password',
 //         initialValue: '',
 //         validation: Yup.string()
-//           .min(2, 'Must be 8 characters or more') //TODO return to 8
+//           .min(8, 'Must be 8 characters or more') //TODO return to 8
 //           .max(20, 'Must be 20 characters or less')
 //           .required('Required'),
 //       },
@@ -87,7 +87,7 @@ interface IAuthorizationModal {
 //           .required('Required'),
 //       },
 //       {
-//         name: 'confirmpassword',
+//         name: 'confirm_password',
 //         label: 'Confirm password',
 //         type: 'password',
 //         initialValue: '',
@@ -172,8 +172,7 @@ const AuthorizationModal: FC<IAuthorizationModal> = ({ setVisible }) => {
     if (formValue === 'login') {
       login(values);
     } else {
-      delete values.confirm_password;
-      signUp(values);
+      signUp({...values, confirm_password: undefined });
     }
   };
 

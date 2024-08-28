@@ -40,6 +40,7 @@ interface AuthorizationFormProps {
   formData: IFormData;
   onFormTypeChange: (formReset: () => void) => void;
   onCancel: () => void;
+  isLoading: boolean;
 }
 
 function getFormValues<T>(formData: IFormData, feild: FieldType) {
@@ -62,6 +63,7 @@ const AuthorizationForm: FC<AuthorizationFormProps> = ({
   onCancel,
   formData,
   onFormTypeChange,
+  isLoading,
 }) => {
   return (
     <Formik
@@ -102,12 +104,14 @@ const AuthorizationForm: FC<AuthorizationFormProps> = ({
               label={formData.buttonTitle}
               disabled={isSubmitting || !isValid || !dirty}
               type="submit"
+              loading={isLoading}
               text
               className="submitButton p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
             ></Button>
             <Button
               label="Cancel"
               onClick={onCancel}
+              loading={isLoading}
               text
               className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
             ></Button>
@@ -118,6 +122,7 @@ const AuthorizationForm: FC<AuthorizationFormProps> = ({
               onFormTypeChange(resetForm);
             }}
             type="button"
+            loading={isLoading}
             label={formData.switchButtonTitle}
           />
         </Form>
