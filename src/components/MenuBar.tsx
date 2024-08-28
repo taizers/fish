@@ -1,10 +1,13 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { Menubar as Menu } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector, useShowErrorToast } from '../hooks';
 import { adminRole, moderatorRole } from '../constants.ts';
+import { authApiSlice } from '../store/reducers/AuthApiSlice.ts';
+import { createToast } from '../utils/toasts.ts';
+import { localLogout } from '../store/reducers/AuthSlice.ts';
 
 interface IMEnuBar {
   setLoginDialogVisible: (data: boolean) => void;
@@ -13,7 +16,19 @@ interface IMEnuBar {
 
 const MenuBar: FC<IMEnuBar> = ({ setLoginDialogVisible, child }) => {
   const history = useNavigate();
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+
+  const [logout, { data, error }] = authApiSlice.useLogoutMutation();
+
+  useShowErrorToast(error);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(localLogout());
+      createToast.success('Logout completed');
+    }
+  }, [data]);
 
   const end = (
     <div className="flex align-items-center gap-2">
@@ -24,7 +39,14 @@ const MenuBar: FC<IMEnuBar> = ({ setLoginDialogVisible, child }) => {
           onClick={() => setLoginDialogVisible(true)}
         />
       ) : (
-        <p style={{ marginRight: '10px' }}>{`${user.name}`}</p>
+        <div style={{ marginRight: '10px', display: 'flex', gap: '10px' }}>
+          <p>{`${user.name}`}</p>
+          <Button
+            label="Logout"
+            icon="pi pi-user"
+            onClick={() => logout('')}
+          />
+        </div>
       )}
     </div>
   );
