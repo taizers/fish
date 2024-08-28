@@ -9,12 +9,13 @@ import {
 import { commentsApiSlice } from '../store/reducers/CommentsApiSlice';
 import { useShowErrorToast } from '../hooks';
 import {
-  deleteTemplate,
+  DeleteTemplate,
   GradeTemplate,
-  userTemplate,
+  UserTemplate,
 } from './AdminTableTemplates';
 import { createToast } from '../utils/toasts';
 import NoData from './NoData';
+import Loader from './Loader';
 
 const CommentsAdmin: FC = () => {
   const [page, setPage] = useState<number>(0);
@@ -61,12 +62,12 @@ const CommentsAdmin: FC = () => {
       field: 'user',
       header: 'User',
       template: (product: IAdminComment) =>
-        userTemplate<IAdminComment>(product),
+        UserTemplate<IAdminComment>(product),
     },
     {
       header: 'Delete',
       template: (product: IAdminComment) =>
-        deleteTemplate<IAdminComment>(product, onDelete),
+        DeleteTemplate<IAdminComment>(product, onDelete),
     },
   ];
 
@@ -80,6 +81,7 @@ const CommentsAdmin: FC = () => {
         />
       )}
       {!data && !isLoading && <NoData />}
+      {isLoading && <Loader />}
       <PaginationComponent
         page={{ current: page, setPage }}
         limit={{ current: limit, setLimit }}

@@ -10,13 +10,14 @@ import {
 } from '../types/responce';
 import { useShowErrorToast } from '../hooks';
 import {
-  deleteTemplate,
-  isApprovedTemplate,
-  openTemplate,
-  userTemplate,
+  DeleteTemplate,
+  IsApprovedTemplate,
+  OpenTemplate,
+  UserTemplate,
 } from './AdminTableTemplates';
 import { createToast } from '../utils/toasts';
 import NoData from './NoData';
+import Loader from './Loader';
 
 const PlacesAdmin: FC = () => {
   const [page, setPage] = useState<number>(0);
@@ -69,22 +70,22 @@ const PlacesAdmin: FC = () => {
     {
       field: 'user',
       header: 'User',
-      template: (product: IAdminPalce) => userTemplate<IAdminPalce>(product),
+      template: (product: IAdminPalce) => UserTemplate<IAdminPalce>(product),
     },
     {
       header: 'Approved',
       template: (product: IAdminPalce) =>
-        isApprovedTemplate<IAdminPalce>(product, updateStatus),
+        IsApprovedTemplate<IAdminPalce>(product, updateStatus),
     },
     {
       header: 'Open',
       template: (product: IAdminPalce) =>
-        openTemplate<IAdminPalce>(product, history),
+        OpenTemplate<IAdminPalce>(product, history),
     },
     {
       header: 'Delete',
       template: (product: IAdminPalce) =>
-        deleteTemplate<IAdminPalce>(product, onDelete),
+        DeleteTemplate<IAdminPalce>(product, onDelete),
     },
   ];
 
@@ -98,6 +99,7 @@ const PlacesAdmin: FC = () => {
         />
       )}
       {!data && !isLoading && <NoData />}
+      {isLoading && <Loader />}
       <PaginationComponent
         page={{ current: page, setPage }}
         limit={{ current: limit, setLimit }}

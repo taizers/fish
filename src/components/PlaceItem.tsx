@@ -4,6 +4,7 @@ import { fishPlacesApiSlice } from '../store/reducers/FishPlacesApiSlice';
 import { useShowErrorToast } from '../hooks';
 import PlaceInfo from './PlaceInfo';
 import NoData from './NoData';
+import Loader from './Loader';
 // import { placeItemMock } from '../mocks';
 
 interface PlaceItemProps {
@@ -34,6 +35,7 @@ const PlaceItem: FC<PlaceItemProps> = ({ currentListItem }) => {
       {currentListItem === null && !data && !isLoading && (
         <NoData color="white" label={'Select Some Place'} />
       )}
+      {isLoading && <Loader />}
     </div>
   );
 };

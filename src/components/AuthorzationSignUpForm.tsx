@@ -100,7 +100,7 @@ const formData = {
         .required('Required'),
     },
     {
-      name: 'confirmpassword',
+      name: 'confirm_password',
       label: 'Confirm password',
       type: 'password',
       initialValue: '',

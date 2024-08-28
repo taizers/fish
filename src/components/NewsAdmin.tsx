@@ -10,13 +10,14 @@ import {
   useGetQueryResponce,
 } from '../types/responce';
 import {
-  deleteTemplate,
-  isApprovedTemplate,
-  openTemplate,
-  userTemplate,
+  DeleteTemplate,
+  IsApprovedTemplate,
+  OpenTemplate,
+  UserTemplate,
 } from './AdminTableTemplates';
 import { createToast } from '../utils/toasts';
 import NoData from './NoData';
+import Loader from './Loader';
 
 const NewsAdmin: FC = () => {
   const [page, setPage] = useState<number>(0);
@@ -64,22 +65,22 @@ const NewsAdmin: FC = () => {
     {
       field: 'user',
       header: 'User',
-      template: (product: IAdminItem) => userTemplate<IAdminItem>(product),
+      template: (product: IAdminItem) => UserTemplate<IAdminItem>(product),
     },
     {
       header: 'Approved',
       template: (product: IAdminItem) =>
-        isApprovedTemplate<IAdminItem>(product, updateStatus),
+        IsApprovedTemplate<IAdminItem>(product, updateStatus),
     },
     {
       header: 'Open',
       template: (product: IAdminItem) =>
-        openTemplate<IAdminItem>(product, history),
+        OpenTemplate<IAdminItem>(product, history),
     },
     {
       header: 'Delete',
       template: (product: IAdminItem) =>
-        deleteTemplate<IAdminItem>(product, onDelete),
+        DeleteTemplate<IAdminItem>(product, onDelete),
     },
   ];
 
@@ -93,6 +94,7 @@ const NewsAdmin: FC = () => {
         />
       )}
       {!data && !isLoading && <NoData />}
+      {isLoading && <Loader />}
       <PaginationComponent
         page={{ current: page, setPage }}
         limit={{ current: limit, setLimit }}

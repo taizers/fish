@@ -12,6 +12,7 @@ import {
 } from '../types/responce';
 import { adminRole, journalistRole, moderatorRole } from '../constants';
 import NoData from '../components/NoData';
+import Loader from '../components/Loader';
 
 const News: FC = () => {
   const [page, setPage] = useState<number>(0);
@@ -65,6 +66,7 @@ const News: FC = () => {
           <NewsListItem newsItem={item} key={index} />
         ))}
         {!data && !isLoading && <NoData />}
+        {isLoading && <Loader />}
       </div>
       <PaginationComponent
         page={{ current: page, setPage }}

@@ -13,6 +13,7 @@ import { Button } from 'primereact/button';
 import CreatePlaceModal from '../modals/CreatePlaceModal';
 import { adminRole, authorRole, moderatorRole } from '../constants';
 import NoData from './NoData';
+import Loader from './Loader';
 
 interface PlacesListProps {
   setCurrentListItem: (id: string | number) => void;
@@ -78,6 +79,7 @@ const PlacesList: FC<PlacesListProps> = ({ setCurrentListItem, currentListItem }
           />
         ))}
         {!data && !isLoading && <NoData color="white" />}
+        {isLoading && <Loader />}
       </div>
       <PaginationComponent
         page={{ current: page, setPage }}

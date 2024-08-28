@@ -11,9 +11,10 @@ import {
 } from '../reducers/AuthSlice.ts';
 import { apiUrl } from '../../constants.ts';
 import { clearToken, setToken } from '../../utils/localStorage';
+import { getUserFromToken } from '../../utils/index.ts';
 
 interface IRefreshResultData {
-  access_token: string;
+  accessToken: string;
 }
 
 const baseQuery = fetchBaseQuery({
@@ -60,13 +61,17 @@ const baseQueryWithReauth = async (
     if (refreshResult?.data) {
       const resultData = { ...refreshResult.data } as IRefreshResultData;
 
-      const token = resultData.access_token;
-      const user = resultData.access_token;
+      const token = resultData.accessToken;
+      const user = getUserFromToken(token);
 
       //store the new token and user
-      setToken(token);
-      api.dispatch(setUserToken(token));
-      api.dispatch(setUserData(user));
+      if (user) {
+        api.dispatch(setUserToken(token));
+        api.dispatch(setUserData(user));
+        setToken(token);
+      } else {
+        api.dispatch(setUserData({}));
+      }
 
       //retry original query with new access token
       result = await baseQuery(args, api, extraOptions);

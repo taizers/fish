@@ -4,7 +4,6 @@ import { useAppDispatch } from './hooks';
 import { setUserData, setUserToken } from './store/reducers/AuthSlice';
 import { getToken } from './utils/localStorage';
 import LayOut from './components/Layout';
-import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './pages/NotFound';
 import AdminPanel from './pages/AdminPanel';
@@ -17,6 +16,7 @@ import NewsAdminItem from './pages/NewsAdminItem';
 import PlaceAdmin from './pages/PlaceAdmin';
 import PrivateAdminRoute from './components/PrivateAdminRoute';
 
+//TODO IAdminPalce fix naming
 const App: FC = () => {
   const dispatch = useAppDispatch();
 
@@ -42,11 +42,6 @@ const App: FC = () => {
       <Route path={'/'} element={<LayOut />}>
         {/* public routes */}
         <Route index element={<Places />} />
-
-        <Route element={<PublicRoute />}>
-          {/* <Route path={'login'} element={<Login />} /> */}
-          {/* <Route path={'signup'} element={<SignUp />} /> */}
-        </Route>
 
         {/* protected routes */}
         <Route element={<PrivateRoute />}>

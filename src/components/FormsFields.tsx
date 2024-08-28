@@ -110,7 +110,7 @@ export const MyCheckbox = ({ children, style, ...props }: IMyCheckBox) => {
 };
 
 export const MySelect = ({ style, ...props }: IMySelect) => {
-  const [field, meta] = useField({ ...props, type: 'checkbox' });
+  const [field, meta] = useField({ ...props });
 
   const error = meta.error as { name?: string };
 

@@ -4,7 +4,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { Rating } from 'primereact/rating';
 import DeleteModal from '../modals/DeleteModal';
 
-export const userTemplate = <T extends { user: IShortItem }>(product: T) => {
+export const UserTemplate = <T extends { user: IShortItem }>(product: T) => {
   return (
     <>
       `${product.user.name}(${product.user.id})`
@@ -12,7 +12,7 @@ export const userTemplate = <T extends { user: IShortItem }>(product: T) => {
   );
 };
 
-export const isApprovedTemplate = <T extends { status: string; id: number }>(
+export const IsApprovedTemplate = <T extends { status: string; id: number }>(
   product: T,
   updateStatus: (data: object) => void
 ) => {
@@ -35,7 +35,7 @@ export const isApprovedTemplate = <T extends { status: string; id: number }>(
   }
 };
 
-export const openTemplate = <T extends { id: number }>(
+export const OpenTemplate = <T extends { id: number }>(
   product: T,
   history: NavigateFunction
 ) => {
@@ -48,7 +48,7 @@ export const openTemplate = <T extends { id: number }>(
   );
 };
 
-export const deleteTemplate = <T extends { id: number }>(
+export const DeleteTemplate = <T extends { id: number }>(
   product: T,
   onDelete: (id: number) => void
 ) => {
@@ -58,10 +58,6 @@ export const deleteTemplate = <T extends { id: number }>(
         deleteFunction={() => onDelete(product.id)}
         deleteIcon="pi-trash"
       />
-      {/* <Button
-          icon={'pi pi-trash'}
-          onClick={() => history(`/news/${product.id}`)}
-        /> */}
     </div>
   );
 };
