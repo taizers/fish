@@ -9,9 +9,10 @@ import FileUploader from './FileUploader';
 interface CreateNewsFormProps {
   onSubmit: (value: object, setSubmitting: (data: boolean) => void) => void;
   onCancel: () => void;
+  isLoading: boolean;
 }
 
-const CreateNewsForm: FC<CreateNewsFormProps> = ({ onSubmit, onCancel }) => {
+const CreateNewsForm: FC<CreateNewsFormProps> = ({ onSubmit, onCancel, isLoading }) => {
   const [filesLinks, setFilesLinks] = useState<fileResponse[]>(null!);
 
   return (
@@ -83,12 +84,14 @@ const CreateNewsForm: FC<CreateNewsFormProps> = ({ onSubmit, onCancel }) => {
               label={'Create'}
               disabled={isSubmitting || !isValid || !dirty}
               type="submit"
+              loading={isLoading}
               text
               className="submitButton p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
             ></Button>
             <Button
               label="Cancel"
               onClick={onCancel}
+              loading={isLoading}
               text
               className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
             ></Button>

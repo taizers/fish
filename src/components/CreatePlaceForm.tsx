@@ -18,6 +18,7 @@ import { fileResponse } from '../types/responce';
 interface CreatePlaceFormProps {
   onSubmit: (value: object, setSubmitting: (data: boolean) => void) => void;
   onCancel: () => void;
+  isLoading: boolean;
 }
 
 interface CreatePlaceData {
@@ -34,7 +35,7 @@ interface CreatePlaceData {
   };
 }
 
-const CreatePlaceForm: FC<CreatePlaceFormProps> = ({ onSubmit, onCancel }) => {
+const CreatePlaceForm: FC<CreatePlaceFormProps> = ({ onSubmit, onCancel, isLoading }) => {
   const [cords, setCords] = useState<ICords>(null!);
   const [filesLinks, setFilesLinks] = useState<fileResponse[]>(null!);
 
@@ -203,12 +204,14 @@ const CreatePlaceForm: FC<CreatePlaceFormProps> = ({ onSubmit, onCancel }) => {
                 label={'Create'}
                 disabled={isSubmitting || !isValid || !dirty}
                 type="submit"
+                loading={isLoading}
                 text
                 className="submitButton p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
               ></Button>
               <Button
                 label="Cancel"
                 onClick={onCancel}
+                loading={isLoading}
                 text
                 className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
               ></Button>

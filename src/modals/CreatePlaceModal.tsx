@@ -10,7 +10,7 @@ interface CreatePlaceModalProps {
 }
 
 const CreatePlaceModal: FC<CreatePlaceModalProps> = ({ setVisible }) => {
-  const [createPlace, { data, error }] =
+  const [createPlace, { data, error, isLoading }] =
     fishPlacesApiSlice.useAddFishPlaceMutation();
 
   const ref = useRef<(data: boolean) => void>(null!);
@@ -48,7 +48,7 @@ const CreatePlaceModal: FC<CreatePlaceModalProps> = ({ setVisible }) => {
       modal
       style={{ width: '90%', maxWidth: '800px' }}
       onHide={onHide}
-      content={() => <CreatePlaceForm onCancel={onHide} onSubmit={onSubmit} />}
+      content={() => <CreatePlaceForm isLoading={isLoading} onCancel={onHide} onSubmit={onSubmit} />}
     ></Dialog>
   );
 };

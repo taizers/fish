@@ -1,10 +1,6 @@
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
-
-const textColor = 'black';
-const title = '404';
-const subTitle = 'The page you’re looking for doesn’t exist.';
-const buttonText = 'Back Home';
+import { notFoundTextColor, notFoundButtonText, notFoundSubTitle, notFoundTitle } from '../constants';
 
 const NotFound = () => {
   const history = useNavigate();
@@ -16,20 +12,19 @@ const NotFound = () => {
         alignItems: 'center',
         textAlign: 'center',
         flexDirection: 'column',
-        minHeight: '70vh',
       }}
     >
       <p
-        style={{ color: textColor, fontSize: '26px' }}
+        style={{ color: notFoundTextColor, fontSize: '26px' }}
         className="font-size-26 font-bold"
       >
-        {title}
+        {notFoundTitle}
       </p>
-      <p style={{ color: textColor }} className="font-size-14 font-bold">
-        {subTitle}
+      <p style={{ color: notFoundTextColor }} className="font-size-14 font-bold">
+        {notFoundSubTitle}
       </p>
       <Button
-        label={buttonText}
+        label={notFoundButtonText}
         onClick={() => history('/')}
         className="p-button font-bold"
       />

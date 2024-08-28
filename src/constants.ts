@@ -38,3 +38,8 @@ export const roleLabels = {
   adminRole: 'admin',
   journalistRole: 'journalist',
 };
+
+export const notFoundTextColor = 'black';
+export const notFoundTitle = '404';
+export const notFoundSubTitle = 'The page you’re looking for doesn’t exist.';
+export const notFoundButtonText = 'Back Home';

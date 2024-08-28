@@ -19,7 +19,7 @@ const MenuBar: FC<IMEnuBar> = ({ setLoginDialogVisible, child }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
-  const [logout, { data, error }] = authApiSlice.useLogoutMutation();
+  const [logout, { data, error, isLoading }] = authApiSlice.useLogoutMutation();
 
   useShowErrorToast(error);
 
@@ -39,11 +39,14 @@ const MenuBar: FC<IMEnuBar> = ({ setLoginDialogVisible, child }) => {
           onClick={() => setLoginDialogVisible(true)}
         />
       ) : (
-        <div style={{ marginRight: '10px', display: 'flex', gap: '10px' }}>
+        <div style={{ marginRight: '10px', display: 'flex', gap: '20px' }}>
           <p>{`${user.name}`}</p>
           <Button
-            label="Logout"
-            icon="pi pi-user"
+            loading={isLoading}
+            outlined 
+            tooltip="Logout"
+            tooltipOptions={{ position: 'bottom' }}
+            icon="pi pi-sign-out"
             onClick={() => logout('')}
           />
         </div>

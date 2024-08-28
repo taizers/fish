@@ -10,7 +10,7 @@ interface CreatePlaceModalProps {
 }
 
 const CreateNewsModal: FC<CreatePlaceModalProps> = ({ setVisible }) => {
-  const [createNews, { data, error }] = newsApiSlice.useAddNewsMutation();
+  const [createNews, { data, error, isLoading }] = newsApiSlice.useAddNewsMutation();
 
   const ref = useRef<(data: boolean) => void>(null!);
 
@@ -47,7 +47,7 @@ const CreateNewsModal: FC<CreatePlaceModalProps> = ({ setVisible }) => {
       modal
       style={{ width: '90%', maxWidth: '800px' }}
       onHide={onHide}
-      content={() => <CreateNewsForm onCancel={onHide} onSubmit={onSubmit} />}
+      content={() => <CreateNewsForm isLoading={isLoading} onCancel={onHide} onSubmit={onSubmit} />}
     ></Dialog>
   );
 };
