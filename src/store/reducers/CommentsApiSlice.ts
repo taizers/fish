@@ -8,12 +8,14 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { text },
       }),
+      invalidatesTags: ['Comment'],
     }),
     deleteComment: builder.mutation({
       query: (id) => ({
         url: `/comments/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Comment'],
     }),
     getComments: builder.query({
       query: ({ page, limit }) => ({

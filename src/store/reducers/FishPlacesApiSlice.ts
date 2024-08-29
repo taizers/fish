@@ -8,12 +8,14 @@ export const fishPlacesApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { ...credentials },
       }),
+      invalidatesTags: ['Place'],
     }),
     deletePlace: builder.mutation({
       query: (id) => ({
         url: `/place/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Place'],
     }),
     getPlacesList: builder.query({
       query: ({ page, limit }) => ({
