@@ -1,64 +1,112 @@
 import { useEffect, FC } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { useAppDispatch } from './hooks';
+import type { LoaderFunctionArgs } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  redirect,
+} from "react-router-dom";
+import { useAppDispatch, useAppSelector } from './hooks';
 import { setUserData, setUserToken } from './store/reducers/AuthSlice';
 import { getToken } from './utils/localStorage';
 import LayOut from './components/Layout';
-import PrivateRoute from './components/PrivateRoute';
 import NotFound from './pages/NotFound';
 import AdminPanel from './pages/AdminPanel';
 import News from './pages/News';
 import Places from './pages/Places';
-import './App.css';
 import { getUserFromToken } from './utils';
 import NewsItem from './pages/NewsItem';
 import NewsAdminItem from './pages/NewsAdminItem';
 import PlaceAdmin from './pages/PlaceAdmin';
-import PrivateAdminRoute from './components/PrivateAdminRoute';
+import Loader from './components/Loader.tsx';
+import { adminRole, moderatorRole } from './constants.ts';
 
-//TODO IAdminPalce fix naming
+import './App.css';
+
 const App: FC = () => {
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const localToken = getToken();
+    const userFromToken = getUserFromToken(localToken);
 
-    if (localToken) {
-      const user = getUserFromToken(localToken);
-
-      if (user) {
-        dispatch(setUserToken(localToken));
-        dispatch(setUserData(user));
-      } else {
-        dispatch(setUserData({}));
-      }
-    } else {
-      dispatch(setUserData({}));
-    }
+    dispatch(setUserToken(localToken));
+    dispatch(setUserData(userFromToken));
   }, []);
 
+  const router = createBrowserRouter([
+    {
+      id: "root",
+      path: "/",
+      Component: LayOut,
+      children: [
+        {
+          index: true,
+          Component: Places,
+        },
+        {
+          path: "news",
+          loader: protectedLoader,
+          Component: News,
+        },
+        {
+          path: "news/:id",
+          loader: protectedLoader,
+          Component: NewsItem,
+        },
+        {
+          path: "admin",
+          loader: (request) => protectedByRolesLoader(request, [adminRole, moderatorRole]),
+          Component: AdminPanel,
+        },
+        {
+          path: "admin/place/:id",
+          loader: (request) => protectedByRolesLoader(request, [adminRole, moderatorRole]),
+          Component: PlaceAdmin,
+        },
+        {
+          path: "admin/news/:id",
+          loader: (request) => protectedByRolesLoader(request, [adminRole, moderatorRole]),
+          Component: NewsAdminItem,
+        },
+        {
+          path: "*",
+          Component: NotFound,
+        },
+      ],
+    }
+  ]);
+
+  function protectedByRolesLoader({ request }: LoaderFunctionArgs, roles: string[]) {
+    const isUserHaveRole = roles.some(item => {
+      return user?.roles?.includes(item)
+    });
+
+    if (user === null || isUserHaveRole) {
+      return null;
+    }
+
+    if (user.login) {
+      return redirect("/");
+    }
+
+    const params = new URLSearchParams();
+    params.set("from", new URL(request.url).pathname);
+    return redirect("/?" + params.toString());
+  }
+
+  function protectedLoader({ request }: LoaderFunctionArgs) {
+    if (user === null || user.login) {
+      return null;
+    }
+
+    const params = new URLSearchParams();
+    params.set("from", new URL(request.url).pathname);
+    return redirect("/?" + params.toString());
+  }
+
   return (
-    <Routes>
-      <Route path={'/'} element={<LayOut />}>
-        {/* public routes */}
-        <Route index element={<Places />} />
-
-        {/* protected routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path={'news'} element={<News />} />
-          <Route path={'news/:id'} element={<NewsItem />} />
-        </Route>
-
-        <Route element={<PrivateAdminRoute />}>
-          <Route path={'admin'} element={<AdminPanel />} />
-          <Route path={'admin/place/:id'} element={<PlaceAdmin />} />
-          <Route path={'admin/news/:id'} element={<NewsAdminItem />} />
-        </Route>
-
-        {/* Not Found route */}
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <RouterProvider router={router} fallbackElement={<Loader />} />
   );
 };
 

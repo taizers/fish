@@ -6,99 +6,13 @@ import { setUserData, setUserToken } from '../store/reducers/AuthSlice';
 import { getUserFromToken } from '../utils';
 import { setToken } from '../utils/localStorage';
 import { createToast } from '../utils/toasts';
-// import AuthorizationForm from '../components/AuthorzationForm';
-// import * as Yup from 'yup';
 import AuthorizationSignUpForm from '../components/AuthorzationSignUpForm';
 import AuthorizationLoginForm from '../components/AuthorzationLoginForm';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IAuthorizationModal {
   setVisible: (data: boolean) => void;
 }
-
-// const formsData = {
-//   login: {
-//     title: 'Login',
-//     buttonTitle: 'Login',
-//     switchButtonTitle: "I don't have an account",
-//     fields: [
-//       {
-//         name: 'login',
-//         label: 'Login',
-//         type: 'text',
-//         placeholder: 'Login...',
-//         initialValue: '',
-//         validation: Yup.string()
-//           .max(15, 'Must be 15 characters or less')
-//           .required('Required'),
-//       },
-//       {
-//         name: 'password',
-//         label: 'Password',
-//         type: 'password',
-//         initialValue: '',
-//         validation: Yup.string()
-//           .min(8, 'Must be 8 characters or more') //TODO return to 8
-//           .max(20, 'Must be 20 characters or less')
-//           .required('Required'),
-//       },
-//     ],
-//   },
-//   signUp: {
-//     title: 'Sign Up',
-//     buttonTitle: 'Sign Up',
-//     switchButtonTitle: 'I have an account',
-//     fields: [
-//       {
-//         name: 'login',
-//         label: 'Login',
-//         type: 'text',
-//         placeholder: 'Login...',
-//         initialValue: '',
-//         validation: Yup.string()
-//           .max(15, 'Must be 15 characters or less')
-//           .required('Required'),
-//       },
-//       {
-//         name: 'email',
-//         label: 'Email',
-//         type: 'email',
-//         placeholder: 'Email...',
-//         initialValue: '',
-//         validation: Yup.string().email('Invalid email').required('Required'),
-//       },
-//       {
-//         name: 'name',
-//         label: 'Name',
-//         type: 'text',
-//         placeholder: 'Your name...',
-//         initialValue: '',
-//         validation: Yup.string()
-//           .max(20, 'Must be 20 characters or less')
-//           .required('Required'),
-//       },
-//       {
-//         name: 'password',
-//         label: 'Password',
-//         type: 'password',
-//         initialValue: '',
-//         validation: Yup.string()
-//           .min(8, 'Must be 8 characters or more')
-//           .max(20, 'Must be 20 characters or less')
-//           .required('Required'),
-//       },
-//       {
-//         name: 'confirm_password',
-//         label: 'Confirm password',
-//         type: 'password',
-//         initialValue: '',
-//         validation: Yup.string().oneOf(
-//           [Yup.ref('password')],
-//           'Passwords must match'
-//         ),
-//       },
-//     ],
-//   },
-// };
 
 const AuthorizationModal: FC<IAuthorizationModal> = ({ setVisible }) => {
   const [formValue, setFormValue] = useState<'login' | 'signUp'>('login');
@@ -106,7 +20,12 @@ const AuthorizationModal: FC<IAuthorizationModal> = ({ setVisible }) => {
   const [signUp, { data: signUpData, error: signUpError, isLoading: signUpIsLoading }] =
     authApiSlice.useSignUpMutation();
 
+  const history = useNavigate();
+  const routeLocation = useLocation();
   const dispatch = useAppDispatch();
+
+  const params = new URLSearchParams(routeLocation.search);
+  const from = params.get("from") || "/";
 
   const ref = useRef<() => void>(null!);
   const refSubmitting = useRef<(data: boolean) => void>(null!);
@@ -145,6 +64,7 @@ const AuthorizationModal: FC<IAuthorizationModal> = ({ setVisible }) => {
         setToken(data.access_token);
         dispatch(setUserToken(data.access_token));
         dispatch(setUserData(user));
+        history(from);
       }
 
       onHide();

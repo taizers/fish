@@ -18,10 +18,11 @@ import {
 import { createToast } from '../utils/toasts';
 import NoData from './NoData';
 import Loader from './Loader';
+import { defaultPaginationLimit, defaultPaginationPage } from '../constants';
 
 const PlacesAdmin: FC = () => {
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(defaultPaginationPage);
+  const [limit, setLimit] = useState<number>(defaultPaginationLimit);
 
   const history = useNavigate();
 

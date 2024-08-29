@@ -2,6 +2,8 @@ export const TOKEN_KEY = 'access_token';
 export const apiUrl = '';
 export const defaultDelay = 500;
 export const defaultCurrentPage = 0;
+export const defaultPaginationPage = 0;
+export const defaultPaginationLimit = 10;
 
 export const laptopBreakPoint = 1024;
 export const tabletBreakPoint = 768;

@@ -10,13 +10,13 @@ import {
   IResponcePaginatedData,
   useGetQueryResponce,
 } from '../types/responce';
-import { adminRole, journalistRole, moderatorRole } from '../constants.ts';
+import { adminRole, defaultPaginationLimit, defaultPaginationPage, journalistRole, moderatorRole } from '../constants.ts';
 import NoData from '../components/NoData';
 import Loader from '../components/Loader';
 
 const News: FC = () => {
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(defaultPaginationPage);
+  const [limit, setLimit] = useState<number>(defaultPaginationLimit);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const { data, error, isLoading } = newsApiSlice.useGetNewsListQuery<
     useGetQueryResponce<IResponcePaginatedData<INewsItem>>

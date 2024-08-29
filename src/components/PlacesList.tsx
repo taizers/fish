@@ -11,7 +11,7 @@ import {
 // import { listOfPlacesMock } from '../mocks';
 import { Button } from 'primereact/button';
 import CreatePlaceModal from '../modals/CreatePlaceModal';
-import { adminRole, authorRole, moderatorRole } from '../constants.ts';
+import { adminRole, authorRole, defaultPaginationLimit, defaultPaginationPage, moderatorRole } from '../constants.ts';
 import NoData from './NoData';
 import Loader from './Loader';
 
@@ -21,8 +21,8 @@ interface PlacesListProps {
 }
 
 const PlacesList: FC<PlacesListProps> = ({ setCurrentListItem, currentListItem }) => {
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(defaultPaginationPage);
+  const [limit, setLimit] = useState<number>(defaultPaginationLimit);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const { data, error, isLoading } = fishPlacesApiSlice.useGetPlacesListQuery<
     useGetQueryResponce<IResponcePaginatedData<IFishPlaceListItem>>
